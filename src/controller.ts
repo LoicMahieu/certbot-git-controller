@@ -23,11 +23,11 @@ export interface IControllerOptions {
 
 const defaultOptions: IControllerOptions = {
   certbotDir: "/etc/letsencrypt",
-  cronInterval: 1000 * 10, // 1 minute
+  cronInterval: 1000 * 30, // 30 seconds
   domains: [],
   email: null,
   port: 80,
-  renewTime: 1000 * 10, // 1 minute
+  renewTime: 1000 * 30, // 30 seconds
   staging: false,
   webroot: "/var/www",
 };
