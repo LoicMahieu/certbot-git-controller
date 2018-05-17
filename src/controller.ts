@@ -1,7 +1,7 @@
 
 import * as assert from "assert";
 import { merge } from "lodash";
-import ms from "ms";
+import * as ms from "ms";
 import Cron from "./Cron";
 import Domain from "./Domain";
 import GitRepository from "./GitRepository";
