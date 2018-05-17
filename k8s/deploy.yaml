@@ -1,0 +1,93 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: letsencrypt-controller
+spec:
+  replicas: 2
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      labels:
+        run: letsencrypt-controller
+    spec:
+      volumes:
+      - name: letsencrypt-data
+        persistentVolumeClaim:
+          claimName: letsencrypt-data-claim
+      - name: id_rsa
+        secret:
+          optional: true
+          secretName: config
+          items:
+          - key: ID_RSA
+            path: id_rsa
+      - name: id_rsa_pub
+        secret:
+          optional: true
+          secretName: config
+          items:
+          - key: ID_RSA_PUB
+            path: id_rsa.pub
+      containers:
+      - name: letsencrypt-controller
+        image: $KUBE_IMAGE
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 2
+            memory: 256Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+        volumeMounts:
+        - name: letsencrypt-data
+          mountPath: /etc/letsencrypt
+        - name: id_rsa
+          mountPath: /root/.ssh
+        - name: id_rsa_pub
+          mountPath: /root/.ssh
+        env:
+        - name: KUBE_DEPLOY_DATE
+          value: $KUBE_DEPLOY_DATE
+        - name: DOMAINS
+          valueFrom:
+            secretKeyRef:
+              name: config
+              key: DOMAINS
+        - name: EMAIL
+          valueFrom:
+            secretKeyRef:
+              name: config
+              key: EMAIL
+        - name: GIT_REPOSITORY
+          valueFrom:
+            secretKeyRef:
+              name: config
+              key: GIT_REPOSITORY
+        - name: GIT_AUTHOR_NAME
+          valueFrom:
+            secretKeyRef:
+              name: config
+              key: GIT_AUTHOR_NAME
+        - name: GIT_AUTHOR_EMAIL
+          valueFrom:
+            secretKeyRef:
+              name: config
+              key: GIT_AUTHOR_EMAIL
+        - name: PRODUCTION
+          value: "0"
+        livenessProbe:
+          httpGet:
+            path: /health-check
+            port: 80
+          initialDelaySeconds: 10
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health-check
+            port: 80
+          initialDelaySeconds: 10
+          timeoutSeconds: 10
+      restartPolicy: Always
