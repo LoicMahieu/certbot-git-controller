@@ -45,7 +45,9 @@ class Cron {
 
     console.log("Check if any change in git repository");
     if (!await this.gitRepository.isClean()) {
+      console.log("Git repository is not clean, commit and push...");
       await this.gitRepository.commitAndPush();
+      console.log("Commit and push done...");
     }
   }
 
