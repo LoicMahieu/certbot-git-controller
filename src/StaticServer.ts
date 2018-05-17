@@ -17,8 +17,16 @@ class GitRepository {
     this.app.use(this.handleNotFound);
   }
 
-  public listen() {
-    this.app.listen(this.port);
+  public async listen() {
+    await new Promise((resolve, reject) => {
+      this.app.listen(this.port, (err: Error) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
   }
 
   private handleNotFound(req: express.Request, res: express.Response, next: express.NextFunction) {

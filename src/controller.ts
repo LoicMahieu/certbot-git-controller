@@ -2,7 +2,7 @@
 import * as assert from "assert";
 import { merge } from "lodash";
 import * as path from "path";
-import { initialCertbot, startCron } from "./certbot";
+import Cron from "./Cron";
 import Domain from "./Domain";
 import GitRepository from "./GitRepository";
 import StaticServer from "./StaticServer";
@@ -36,19 +36,17 @@ export async function start(options: IControllerOptions) {
   options = merge({}, defaultOptions, options);
   validateOptons(options);
 
-  const domains = options.domains
-    .map((domain) => new Domain(options, domain));
+  const domains = options.domains .map((domain) => new Domain(options, domain));
   const gitRepository = new GitRepository(options.gitRepository + "", path.join(options.certbotDir, CERT_DIR));
-
   const server = new StaticServer(options);
-  server.listen();
+  const cron = new Cron(options, domains, gitRepository);
+
+  await server.listen();
   console.log(`Web server started: http://localhost${server.port}`);
 
   await gitRepository.ensureKnownHost();
   await gitRepository.createRepositoryIfNeeded();
-
-  await initialCertbot(domains, gitRepository);
-  startCron(options, domains, gitRepository);
+  await cron.start();
 }
 
 function validateOptons(options: IControllerOptions) {
