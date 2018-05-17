@@ -14,7 +14,7 @@ spec:
       - name: letsencrypt-data
         persistentVolumeClaim:
           claimName: letsencrypt-data-claim
-      - name: id_rsa
+      - name: id-rsa
         secret:
           optional: true
           secretName: config
@@ -22,7 +22,7 @@ spec:
           - key: ID_RSA
             path: id_rsa
             mode: 0600
-      - name: id_rsa_pub
+      - name: id-rsa-pub
         secret:
           optional: true
           secretName: config
@@ -46,9 +46,9 @@ spec:
         volumeMounts:
         - name: letsencrypt-data
           mountPath: /etc/letsencrypt
-        - name: id_rsa
+        - name: id-rsa
           mountPath: /root/.ssh
-        - name: id_rsa_pub
+        - name: id-rsa-pub
           mountPath: /root/.ssh
         env:
         - name: KUBE_DEPLOY_DATE
