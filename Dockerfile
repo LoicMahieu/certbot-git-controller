@@ -10,4 +10,4 @@ RUN cd /app && yarn install --pure-lockfile --ignore-scripts
 ADD . /app/
 RUN cd /app && yarn build && chmod +x /app/docker-entrypoint.js
 
-ENTRYPOINT [ "/app/docker-entrypoint.js" ]
+ENTRYPOINT "/app/docker-entrypoint.js"

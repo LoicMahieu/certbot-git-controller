@@ -14,6 +14,7 @@ class GitRepository {
 
     this.app.use(morgan("tiny"));
     this.app.use(express.static(options.webroot));
+    this.app.get("/health-check", this.handleHealthCheck);
     this.app.use(this.handleNotFound);
   }
 
@@ -29,9 +30,15 @@ class GitRepository {
     });
   }
 
-  private handleNotFound(req: express.Request, res: express.Response, next: express.NextFunction) {
+  private handleNotFound(req: express.Request, res: express.Response) {
     res
       .status(404)
       .send("Not found!");
+  }
+
+  private handleHealthCheck(req: express.Request, res: express.Response) {
+    res
+      .status(200)
+      .send("OK");
   }
 }

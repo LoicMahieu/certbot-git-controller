@@ -42,7 +42,7 @@ export async function start(options: IControllerOptions) {
   const cron = new Cron(options, domains, gitRepository);
 
   await server.listen();
-  console.log(`Web server started: http://localhost${server.port}`);
+  console.log(`Web server started: http://localhost:${server.port}`);
 
   await gitRepository.ensureKnownHost();
   await gitRepository.createRepositoryIfNeeded();
