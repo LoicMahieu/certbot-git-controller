@@ -27,6 +27,9 @@ class GitRepository {
       ], { stdio: "inherit" });
     }
 
+    // Fetch origin
+    await execa("git", ["fetch", "origin"], { cwd: this.cwd, stdio: "inherit" });
+
     // Reset hard to master
     await execa("git", ["reset", "--hard", "origin/master"], { cwd: this.cwd, stdio: "inherit" });
   }
