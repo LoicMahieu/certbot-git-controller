@@ -65,6 +65,11 @@ spec:
             secretKeyRef:
               name: config
               key: GIT_AUTHOR_EMAIL
+        - name: STAGING
+          valueFrom:
+            secretKeyRef:
+              name: config
+              key: STAGING
         - name: PRODUCTION
           value: "0"
         livenessProbe:

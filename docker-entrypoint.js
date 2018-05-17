@@ -6,8 +6,7 @@ require('/app/lib/controller').start({
   email: process.env.EMAIL,
   port: process.env.PORT,
   renewTime: process.env.RENEW_TIME,
-  staging: false,
-  staging: process.env.PRODUCTION !== 1,
+  staging: process.env.STAGING && process.env.STAGING !== "false",
   webroot: process.env.WEBROOT,
   gitRepository: process.env.GIT_REPOSITORY
 })
