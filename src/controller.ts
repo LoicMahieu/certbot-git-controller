@@ -1,6 +1,7 @@
 
 import * as assert from "assert";
 import { merge } from "lodash";
+import ms from "ms";
 import Cron from "./Cron";
 import Domain from "./Domain";
 import GitRepository from "./GitRepository";
@@ -20,11 +21,11 @@ export interface IControllerOptions {
 
 const defaultOptions: IControllerOptions = {
   certbotDir: "/etc/letsencrypt",
-  cronInterval: 1000 * 30, // 30 seconds
+  cronInterval: ms("3m"),
   domains: [],
   email: null,
   port: 80,
-  renewTime: 1000 * 30, // 30 seconds
+  renewTime: ms("3m"),
   staging: false,
   webroot: "/var/www",
 };
