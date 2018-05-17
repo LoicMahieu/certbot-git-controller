@@ -5,6 +5,8 @@ RUN apk add --no-cache \
   git \
   certbot
 
+RUN mkdir -p /var/www
+
 ADD yarn.lock package.json /app/
 RUN cd /app && yarn install --pure-lockfile --ignore-scripts
 ADD . /app/
