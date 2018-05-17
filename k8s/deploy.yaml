@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: letsencrypt-controller
 spec:
-  replicas: 2
+  replicas: 1
   revisionHistoryLimit: 3
   template:
     metadata:
@@ -16,17 +16,11 @@ spec:
           claimName: letsencrypt-data-claim
       - name: id-rsa
         secret:
-          optional: true
           secretName: config
           items:
           - key: ID_RSA
             path: id_rsa
             mode: 0600
-      - name: id-rsa-pub
-        secret:
-          optional: true
-          secretName: config
-          items:
           - key: ID_RSA_PUB
             path: id_rsa.pub
             mode: 0600
@@ -47,8 +41,6 @@ spec:
         - name: letsencrypt-data
           mountPath: /etc/letsencrypt
         - name: id-rsa
-          mountPath: /root/.ssh
-        - name: id-rsa-pub
           mountPath: /root/.ssh
         env:
         - name: KUBE_DEPLOY_DATE
