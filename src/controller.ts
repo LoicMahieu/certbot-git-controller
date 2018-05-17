@@ -5,7 +5,7 @@ import * as path from "path";
 import { initialCertbot, startCron } from "./certbot";
 import Domain from "./Domain";
 import GitRepository from "./GitRepository";
-import { createServer } from "./server";
+import StaticServer from "./StaticServer";
 
 const CERT_DIR = "live";
 
@@ -40,8 +40,9 @@ export async function start(options: IControllerOptions) {
     .map((domain) => new Domain(options, domain));
   const gitRepository = new GitRepository(options.gitRepository + "", path.join(options.certbotDir, CERT_DIR));
 
-  createServer(options).listen(options.port);
-  console.log(`Web server started: http://localhost${options.port}`);
+  const server = new StaticServer(options);
+  server.listen();
+  console.log(`Web server started: http://localhost${server.port}`);
 
   await gitRepository.ensureKnownHost();
   await gitRepository.createRepositoryIfNeeded();
