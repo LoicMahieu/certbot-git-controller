@@ -34,6 +34,9 @@ export async function start(options: IControllerOptions) {
   options = merge({}, defaultOptions, options);
   validateOptons(options);
 
+  console.log("Start with options:");
+  console.log(options);
+
   const domains = options.domains .map((domain) => new Domain(options, domain));
   const gitRepository = new GitRepository(options.gitRepository + "", options.certbotDir);
   const server = new StaticServer(options);
