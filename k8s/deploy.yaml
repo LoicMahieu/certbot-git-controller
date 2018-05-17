@@ -21,6 +21,7 @@ spec:
           items:
           - key: ID_RSA
             path: id_rsa
+            mode: 0600
       - name: id_rsa_pub
         secret:
           optional: true
@@ -28,6 +29,7 @@ spec:
           items:
           - key: ID_RSA_PUB
             path: id_rsa.pub
+            mode: 0600
       containers:
       - name: letsencrypt-controller
         image: $KUBE_IMAGE
