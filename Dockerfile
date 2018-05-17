@@ -5,10 +5,9 @@ RUN apk add --no-cache \
   git \
   certbot
 
-ADD docker-entrypoint.js /docker-entrypoint.js
-RUN chmod +x /docker-entrypoint.js
+ADD yarn.lock package.json /app/
+RUN cd /app && yarn install --pure-lockfile --ignore-scripts
+ADD . /app/
+RUN cd /app && yarn build && chmod +x /app/docker-entrypoint.js
 
-ADD node_modules /node_modules
-ADD lib /lib
-
-ENTRYPOINT /docker-entrypoint.js
+ENTRYPOINT [ "/app/docker-entrypoint.js" ]

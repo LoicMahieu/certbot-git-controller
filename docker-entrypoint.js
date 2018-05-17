@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-require('../lib/controller').start({
+require('/app/lib/controller').start({
   cronInterval: process.env.CRON_INTERNAL,
   domains: (process.env.DOMAINS || '').split(','),
   email: process.env.EMAIL,
