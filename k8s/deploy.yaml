@@ -11,9 +11,6 @@ spec:
         run: letsencrypt-controller
     spec:
       volumes:
-      - name: letsencrypt-data
-        persistentVolumeClaim:
-          claimName: letsencrypt-data-claim
       - name: id-rsa
         secret:
           secretName: config
@@ -38,8 +35,6 @@ spec:
             cpu: 50m
             memory: 64Mi
         volumeMounts:
-        - name: letsencrypt-data
-          mountPath: /etc/letsencrypt
         - name: id-rsa
           mountPath: /root/.ssh
         env:

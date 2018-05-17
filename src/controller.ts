@@ -1,13 +1,10 @@
 
 import * as assert from "assert";
 import { merge } from "lodash";
-import * as path from "path";
 import Cron from "./Cron";
 import Domain from "./Domain";
 import GitRepository from "./GitRepository";
 import StaticServer from "./StaticServer";
-
-const CERT_DIR = "live";
 
 export interface IControllerOptions {
   certbotDir: string;
@@ -37,7 +34,7 @@ export async function start(options: IControllerOptions) {
   validateOptons(options);
 
   const domains = options.domains .map((domain) => new Domain(options, domain));
-  const gitRepository = new GitRepository(options.gitRepository + "", path.join(options.certbotDir, CERT_DIR));
+  const gitRepository = new GitRepository(options.gitRepository + "", options.certbotDir);
   const server = new StaticServer(options);
   const cron = new Cron(options, domains, gitRepository);
 

@@ -16,6 +16,9 @@ class GitRepository {
   }
 
   public async createRepositoryIfNeeded() {
+    if (await fs.pathExists(this.cwd)) {
+      await fs.remove(this.cwd);
+    }
     await fs.ensureDir(this.cwd);
 
     // Clone repository if not exists
