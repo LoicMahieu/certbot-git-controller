@@ -20,7 +20,7 @@ class Domain {
     this.lastCertUpdate = null;
   }
 
-  public async requestCerts() {
+  public async requestCertificates() {
     try {
       await certbot(["certonly", ...this.getCertbotBaseArgs()]);
       this.lastCertUpdate = new Date();

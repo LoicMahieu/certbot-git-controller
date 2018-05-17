@@ -22,7 +22,7 @@ class Cron {
 
   private async initialCheck() {
     for (const domain of this.domains) {
-      await domain.requestCerts();
+      await domain.requestCertificates();
     }
     if (!await this.gitRepository.isClean()) {
       console.log("Git repository is not clean.");
@@ -53,7 +53,7 @@ class Cron {
     console.log(`Start cron for domain ${domain.name}`);
     if (domain.isRenewNeeded()) {
       console.log("Renew is needed.");
-      await domain.requestCerts();
+      await domain.requestCertificates();
       console.log("Renew is done!");
     } else {
       console.log("No renew is needed at this time..");
