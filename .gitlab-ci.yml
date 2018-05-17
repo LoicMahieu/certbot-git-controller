@@ -33,4 +33,4 @@ deploy-master:
     - .kube-deploy
   script:
     - . ci-setup
-    - ci-deploy "./k8s/*.yml"
+    - ci-deploy "./k8s/*.yaml"
