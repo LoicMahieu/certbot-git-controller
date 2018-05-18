@@ -12,12 +12,12 @@ export interface IControllerOptions {
   cronInterval: number;
   domains: string[];
   email: string | null;
+  initialCheckDelay: number;
   port: number;
   renewTime: number;
   staging: boolean;
   webroot: string;
   gitRepository?: string;
-  initialCheckDelay: number;
 }
 
 const defaultOptions: IControllerOptions = {
