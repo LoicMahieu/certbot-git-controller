@@ -12,9 +12,9 @@ class GitRepository {
     this.port = options.port;
     this.app = express();
 
+    this.app.get("/health-check", this.handleHealthCheck);
     this.app.use(morgan("tiny"));
     this.app.use(express.static(options.webroot));
-    this.app.get("/health-check", this.handleHealthCheck);
     this.app.use(this.handleNotFound);
   }
 
