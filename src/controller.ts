@@ -17,6 +17,7 @@ export interface IControllerOptions {
   staging: boolean;
   webroot: string;
   gitRepository?: string;
+  initialCheckDelay: number;
 }
 
 const defaultOptions: IControllerOptions = {
@@ -24,6 +25,7 @@ const defaultOptions: IControllerOptions = {
   cronInterval: ms("6h"),
   domains: [],
   email: null,
+  initialCheckDelay: ms("10s"),
   port: 80,
   renewTime: ms("5h"),
   staging: false,

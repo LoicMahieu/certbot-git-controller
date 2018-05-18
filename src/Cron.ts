@@ -1,4 +1,5 @@
 
+import delay = require("delay");
 import { IControllerOptions } from "./controller";
 import Domain from "./Domain";
 import GitRepository from "./GitRepository";
@@ -21,6 +22,8 @@ class Cron {
   }
 
   private async initialCheck() {
+    await delay(this.options.initialCheckDelay);
+
     for (const domain of this.domains) {
       await domain.requestCertificates();
     }
