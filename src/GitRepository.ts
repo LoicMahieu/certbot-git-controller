@@ -9,10 +9,12 @@ export default
 class GitRepository {
   private readonly remote: string;
   private readonly cwd: string;
+  private readonly commitMessage: string;
 
-  constructor(remote: string, cwd: string) {
+  constructor(remote: string, cwd: string, commitMessage?: string) {
     this.remote = remote;
     this.cwd = cwd;
+    this.commitMessage = commitMessage || "Update Let's Encrypt store";
   }
 
   public async createRepositoryIfNeeded() {
@@ -66,7 +68,7 @@ class GitRepository {
 
   public async commitAndPush() {
     await execa("git", ["add", "-A", "."], { cwd: this.cwd, stdio: "inherit" });
-    await execa("git", ["commit", "-m", "update"], { cwd: this.cwd, stdio: "inherit" });
+    await execa("git", ["commit", "-m", this.commitMessage], { cwd: this.cwd, stdio: "inherit" });
     await execa("git", ["push", "origin", "master"], { cwd: this.cwd, stdio: "inherit" });
   }
 }
