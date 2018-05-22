@@ -6,6 +6,7 @@
     "email": "mahieuloic@gmail.com"
   },
   "license": "MIT",
+  "main": "./lib/controller",
   "bin": "./bin/certbot-git-controller",
   "files": [
     "bin/*",
