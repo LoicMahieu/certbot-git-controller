@@ -3,7 +3,7 @@
 
 Simple tool that use certbot for managing Let's Encrypt certificates. It creates a webserver that listen for http-01 challenge and use a git repository as store.
 
-Example use-case: Your frontend load-balancers are decentralized and spreads on multiple servers, your configuration is managed as a git repository. Simply proxify `/.well-known/acme-challenge/` to the `certbot-git-controller`ç
+Example use-case: Your frontend load-balancers are decentralized and spreads on multiple servers, your configuration is managed as a git repository. Simply proxify `/.well-known/acme-challenge/` to the `certbot-git-controller` !
 
 ### Usage
 
