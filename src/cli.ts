@@ -5,7 +5,9 @@ import * as yargs from "yargs";
 import { defaultOptions, IControllerOptions, start as startController } from "./controller";
 
 function start(argv: any) {
-  const { domainsFile, ...opts } = argv.argv;
+  const { domainsFile, staging, ...opts } = argv.argv;
+
+  opts.staging = staging !== "false";
 
   if (domainsFile) {
     const domainsFileContent = fs.readFileSync(domainsFile).toString("utf8");
