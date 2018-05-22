@@ -20,7 +20,7 @@ export interface IControllerOptions {
   gitRepository?: string;
 }
 
-const defaultOptions: IControllerOptions = {
+export const defaultOptions: IControllerOptions = {
   certbotDir: "/etc/letsencrypt",
   cronInterval: ms("30s"),
   domains: [],

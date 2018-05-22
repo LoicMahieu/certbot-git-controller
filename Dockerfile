@@ -1,15 +1,12 @@
 FROM node:10-alpine
-
-RUN apk add --no-cache \
-  openssh \
-  git \
-  certbot
-
-RUN mkdir -p /var/www
-
-ADD yarn.lock package.json /app/
-RUN cd /app && yarn install --pure-lockfile --ignore-scripts
 ADD . /app/
-RUN cd /app && yarn build && chmod +x /app/docker-entrypoint.js
+RUN cd /app && yarn install --pure-lockfile
+RUN cd /app && yarn install --production
+RUN rm -rf /app/src
 
-ENTRYPOINT "/app/docker-entrypoint.js"
+FROM node:10-alpine
+RUN apk add --no-cache openssh git certbot
+COPY --from=0 /app/ /app/
+ENV PATH="/app/bin:${PATH}"
+
+ENTRYPOINT "certbot-git-controller"
