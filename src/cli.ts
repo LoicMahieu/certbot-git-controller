@@ -1,10 +1,18 @@
 #!/usr/bin/env node
 
+import * as fs from "fs";
 import * as yargs from "yargs";
 import { defaultOptions, IControllerOptions, start as startController } from "./controller";
 
 function start(argv: any) {
-  const opts = argv.argv;
+  const { domainsFile, ...opts } = argv.argv;
+
+  if (domainsFile) {
+    const domainsFileContent = fs.readFileSync(domainsFile).toString("utf8");
+    const domains = domainsFileContent.split(/,|\n/).map((d) => d && d.trim()).filter(Boolean);
+    opts.domains = domains;
+  }
+
   startController(opts as IControllerOptions)
     .catch((err) => {
       console.error(err);
@@ -24,6 +32,7 @@ const args = yargs
     array: true,
     default: defaultOptions.domains,
   })
+  .option("domainsFile", {})
   .option("email", {
     default: defaultOptions.email,
   })
