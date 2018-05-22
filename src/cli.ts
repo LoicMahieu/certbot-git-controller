@@ -21,6 +21,7 @@ const args = yargs
     default: defaultOptions.cronInterval,
   })
   .option("domains", {
+    array: true,
     default: defaultOptions.domains,
   })
   .option("email", {

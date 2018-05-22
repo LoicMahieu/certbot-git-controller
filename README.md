@@ -9,11 +9,11 @@ Example use-case: Your frontend load-balancers are decentralized and spreads on 
 
 ```
 npm install -g certbot-git-controller
-certbot-git-controller --gitRepository git@github.com/account/letsencrypt.git --domains github.com,google.com
+certbot-git-controller --gitRepository git@github.com/account/letsencrypt.git --domains github.com --domains google.com
 ```
 
 ### Usage via docker
 
 ```
-docker run --rm -it loicmahieu/certbot-git-controller --gitRepository git@github.com/account/letsencrypt.git --domains github.com,google.com
+docker run --rm -it loicmahieu/certbot-git-controller --gitRepository git@github.com/account/letsencrypt.git --domains github.com --domains google.com
 ```
