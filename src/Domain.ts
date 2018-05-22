@@ -34,7 +34,15 @@ class Domain {
       return true;
     }
     const now = new Date();
-    return now.getTime() - this.lastCertUpdate.getTime() >= this.options.renewTime;
+    const renewDate = this.getRenewDate();
+    return now.getTime() >= renewDate.getTime();
+  }
+
+  public getRenewDate() {
+    if (!this.lastCertUpdate) {
+      return new Date();
+    }
+    return new Date(this.lastCertUpdate.getTime() + this.options.renewTime);
   }
 
   private getCertbotBaseArgs() {

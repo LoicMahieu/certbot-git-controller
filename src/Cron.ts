@@ -62,8 +62,10 @@ class Cron {
       console.log("Renew is needed.");
       await domain.requestCertificates();
       console.log("Renew is done!");
+      console.log("Next renew is planned for", domain.getRenewDate());
     } else {
       console.log("No renew is needed at this time..");
+      console.log("Renew is planned for", domain.getRenewDate());
     }
   }
 }
