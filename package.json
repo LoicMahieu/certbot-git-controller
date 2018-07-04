@@ -38,7 +38,7 @@
     "typescript": "^2.8.3"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -t ES2017",
     "lint": "tslint -c tslint.json src/**/*.ts",
     "prepublish": "npm run build"
   }
