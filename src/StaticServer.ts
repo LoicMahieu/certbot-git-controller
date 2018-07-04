@@ -4,7 +4,7 @@ import * as morgan from "morgan";
 import { IControllerOptions } from "./controller";
 
 export default
-class GitRepository {
+class StaticService {
   public readonly port: number;
   private readonly app: express.Application;
 
