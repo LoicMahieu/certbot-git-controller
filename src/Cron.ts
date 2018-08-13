@@ -3,6 +3,7 @@ import delay = require("delay");
 import { IControllerOptions } from "./controller";
 import Domain from "./Domain";
 import GitRepository from "./GitRepository";
+import logger from "./logger";
 
 export default
 class Cron {
@@ -28,9 +29,9 @@ class Cron {
       await domain.requestCertificates();
     }
     if (!await this.gitRepository.isClean()) {
-      console.log("Git repository is not clean.");
+      logger.debug("Git repository is not clean.");
       await this.gitRepository.commitAndPush();
-      console.log("Commit and push done!");
+      logger.success("Commit and push done!");
     }
   }
 
@@ -41,31 +42,31 @@ class Cron {
   }
 
   private async doCron() {
-    console.log("Start cron job");
+    logger.debug("Start cron job");
     for (const domain of this.domains) {
       await this.doCronForDomain(domain);
     }
 
-    console.log("Check if any change in git repository");
+    logger.debug("Check if any change in git repository");
     if (!await this.gitRepository.isClean()) {
-      console.log("Git repository is not clean, commit and push...");
+      logger.debug("Git repository is not clean, commit and push...");
       await this.gitRepository.commitAndPush();
-      console.log("Commit and push done...");
+      logger.success("Commit and push done...");
     } else {
-      console.log("No change in git repository");
+      logger.debug("No change in git repository");
     }
   }
 
   private async doCronForDomain(domain: Domain) {
-    console.log(`Start cron for domain ${domain.name}`);
+    logger.debug(`Start cron for domain ${domain.name}`);
     if (domain.isRenewNeeded()) {
-      console.log("Renew is needed.");
+      logger.debug("Renew is needed.");
       await domain.requestCertificates();
-      console.log("Renew is done!");
-      console.log("Next renew is planned for", domain.getRenewDate());
+      logger.debug("Renew is done!");
+      logger.success("Next renew is planned for", domain.getRenewDate());
     } else {
-      console.log("No renew is needed at this time..");
-      console.log("Renew is planned for", domain.getRenewDate());
+      logger.debug("No renew is needed at this time..");
+      logger.success("Renew is planned for", domain.getRenewDate());
     }
   }
 }

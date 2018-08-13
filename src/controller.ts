@@ -5,6 +5,7 @@ import ms = require("ms");
 import Cron from "./Cron";
 import Domain from "./Domain";
 import GitRepository from "./GitRepository";
+import logger from "./logger";
 import StaticServer from "./StaticServer";
 
 export interface IControllerOptions {
@@ -36,8 +37,7 @@ export async function start(options: IControllerOptions) {
   options = merge({}, defaultOptions, options);
   validateOptons(options);
 
-  console.log("Start with options:");
-  console.log(options);
+  logger.success("Start with options:", options);
 
   const domains = options.domains .map((domain) => new Domain(options, domain));
   const gitRepository = new GitRepository(options.gitRepository + "", options.certbotDir);
@@ -45,7 +45,7 @@ export async function start(options: IControllerOptions) {
   const cron = new Cron(options, domains, gitRepository);
 
   await server.listen();
-  console.log(`Web server started: http://localhost:${server.port}`);
+  logger.success(`Web server started: http://localhost:${server.port}`);
 
   await gitRepository.ensureKnownHost();
   await gitRepository.createRepositoryIfNeeded();
