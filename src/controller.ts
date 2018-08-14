@@ -10,6 +10,7 @@ import StaticServer from "./StaticServer";
 
 export interface IControllerOptions {
   certbotDir: string;
+  cleanCertbotDir: boolean;
   cronInterval: number;
   domains: string[];
   email: string | null;
@@ -23,6 +24,7 @@ export interface IControllerOptions {
 
 export const defaultOptions: IControllerOptions = {
   certbotDir: "/etc/letsencrypt",
+  cleanCertbotDir: true,
   cronInterval: ms("30s"),
   domains: [],
   email: null,
@@ -48,7 +50,7 @@ export async function start(options: IControllerOptions) {
   logger.success(`Web server started: http://localhost:${server.port}`);
 
   await gitRepository.ensureKnownHost();
-  await gitRepository.createRepositoryIfNeeded();
+  await gitRepository.createRepositoryIfNeeded(options.cleanCertbotDir);
   await cron.start();
 }
 

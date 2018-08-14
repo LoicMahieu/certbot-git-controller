@@ -17,8 +17,8 @@ class GitRepository {
     this.commitMessage = commitMessage || "Update Let's Encrypt store";
   }
 
-  public async createRepositoryIfNeeded() {
-    if (await fs.pathExists(this.cwd)) {
+  public async createRepositoryIfNeeded(clean: boolean) {
+    if (clean && await fs.pathExists(this.cwd)) {
       await fs.remove(this.cwd);
     }
     await fs.ensureDir(this.cwd);

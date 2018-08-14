@@ -27,6 +27,9 @@ const args = yargs
   .option("certbotDir", {
     default: defaultOptions.certbotDir,
   })
+  .option("cleanCertbotDir", {
+    default: defaultOptions.cleanCertbotDir,
+  })
   .option("cronInterval", {
     default: defaultOptions.cronInterval,
   })
