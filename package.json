@@ -1,6 +1,6 @@
 {
   "name": "certbot-git-controller",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "author": {
     "name": "Loïc Mahieu",
     "email": "mahieuloic@gmail.com"
