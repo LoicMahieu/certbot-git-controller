@@ -26,7 +26,7 @@ class Cron {
     await delay(this.options.initialCheckDelay);
 
     for (const domain of this.domains) {
-      await domain.requestCertificates();
+      await this.renewDomain(domain);
     }
     if (!await this.gitRepository.isClean()) {
       logger.debug("Git repository is not clean.");
@@ -44,7 +44,7 @@ class Cron {
   private async doCron() {
     logger.debug("Start cron job");
     for (const domain of this.domains) {
-      await this.doCronForDomain(domain);
+      await this.renewDomain(domain);
     }
 
     logger.debug("Check if any change in git repository");
@@ -57,8 +57,8 @@ class Cron {
     }
   }
 
-  private async doCronForDomain(domain: Domain) {
-    logger.debug(`Start cron for domain ${domain.name}`);
+  private async renewDomain(domain: Domain) {
+    logger.debug(`Start renew for domain ${domain.name}`);
     if (domain.isRenewNeeded()) {
       logger.debug("Renew is needed.");
       await domain.requestCertificates();
