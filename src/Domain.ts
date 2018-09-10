@@ -13,18 +13,26 @@ class Domain {
   public readonly name: string;
   private readonly options: IControllerOptions;
   private lastCertUpdate: Date | null;
+  private failCount: number;
 
   constructor(options: IControllerOptions, name: string) {
     this.name = name;
     this.options = options;
     this.lastCertUpdate = null;
+    this.failCount = 0;
   }
 
   public async requestCertificates() {
     try {
+      if (this.failCount >= this.options.renewMaxFail) {
+        throw new Error("Too many fail for request certificates. Please check the problem.");
+      }
+
       await certbot(["certonly", ...this.getCertbotBaseArgs()]);
       this.lastCertUpdate = new Date();
+      this.failCount = 0;
     } catch (err) {
+      this.failCount++;
       console.error(`Error during request certificates for domain ${this.name}`, err);
     }
   }

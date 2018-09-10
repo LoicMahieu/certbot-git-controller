@@ -16,6 +16,7 @@ export interface IControllerOptions {
   email: string | null;
   initialCheckDelay: number;
   port: number;
+  renewMaxFail: number;
   renewTime: number;
   staging: boolean;
   webroot: string;
@@ -30,6 +31,7 @@ export const defaultOptions: IControllerOptions = {
   email: null,
   initialCheckDelay: ms("10s"),
   port: 80,
+  renewMaxFail: 3,
   renewTime: ms("6h"),
   staging: false,
   webroot: "/var/www",
