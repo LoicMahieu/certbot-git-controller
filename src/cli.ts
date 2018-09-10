@@ -3,6 +3,7 @@
 import * as fs from "fs";
 import * as yargs from "yargs";
 import { defaultOptions, IControllerOptions, start as startController } from "./controller";
+import logger from "./logger";
 
 function start(argv: any) {
   const { domainsFile, staging, ...opts } = argv.argv;
@@ -17,7 +18,7 @@ function start(argv: any) {
 
   startController(opts as IControllerOptions)
     .catch((err) => {
-      console.error(err);
+      logger.error(err);
       process.exit(1);
     });
 }

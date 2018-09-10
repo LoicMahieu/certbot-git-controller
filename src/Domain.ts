@@ -1,6 +1,7 @@
 
 import * as execa from "execa";
 import { IControllerOptions } from "./controller";
+import logger from "./logger";
 
 const CERTBOT_BIN = "certbot";
 const CERTBOT_BASE_ARGS = [
@@ -33,7 +34,7 @@ class Domain {
       this.failCount = 0;
     } catch (err) {
       this.failCount++;
-      console.error(`Error during request certificates for domain ${this.name}`, err);
+      logger.error(`Error during request certificates for domain ${this.name}`, err);
     }
   }
 
