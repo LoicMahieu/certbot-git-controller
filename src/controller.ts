@@ -56,7 +56,6 @@ export async function start(options: IControllerOptions) {
   await server.listen();
   logger.success(`Web server started: http://localhost:${server.port}`);
 
-  await gitRepository.ensureKnownHost();
   await gitRepository.createRepositoryIfNeeded(options.cleanCertbotDir);
   await cron.start();
 }

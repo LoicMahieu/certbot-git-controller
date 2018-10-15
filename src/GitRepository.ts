@@ -1,9 +1,12 @@
 
 import * as execa from "execa";
 import * as fs from "fs-extra";
-import gitUrlParse = require("git-url-parse");
 import * as path from "path";
-import * as userHome from "user-home";
+
+const gitEnv = {
+  ...process.env,
+  GIT_SSH_COMMAND: "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no",
+};
 
 export default
 class GitRepository {
@@ -29,46 +32,24 @@ class GitRepository {
         "clone",
         this.remote,
         this.cwd,
-      ], { stdio: "inherit" });
+      ], { stdio: "inherit", env: gitEnv });
     }
 
     // Fetch origin
-    await execa("git", ["fetch", "origin"], { cwd: this.cwd, stdio: "inherit" });
+    await execa("git", ["fetch", "origin"], { cwd: this.cwd, stdio: "inherit", env: gitEnv });
 
     // Reset hard to master
-    await execa("git", ["reset", "--hard", "origin/master"], { cwd: this.cwd, stdio: "inherit" });
-  }
-
-  public async ensureKnownHost() {
-    const { resource } = gitUrlParse(this.remote);
-    const sshDir = path.join(userHome, ".ssh");
-    const knownHostFile = path.join(sshDir, "known_hosts");
-
-    await fs.ensureDir(sshDir);
-
-    let knownHost = "";
-    try {
-      knownHost = (await fs.readFile(knownHostFile)).toString();
-    } catch (err) {
-      if (err.code !== "ENOENT") {
-        throw err;
-      }
-    }
-
-    if (knownHost.indexOf(resource) < 0) {
-      const { stdout: keyScan } = await execa("ssh-keyscan", [ resource ]);
-      await fs.writeFile(knownHostFile, [knownHost, keyScan].join("\n"));
-    }
+    await execa("git", ["reset", "--hard", "origin/master"], { cwd: this.cwd, stdio: "inherit", env: gitEnv });
   }
 
   public async isClean() {
-    const { stdout } = await execa("git", ["status", "--porcelain"], { cwd: this.cwd });
+    const { stdout } = await execa("git", ["status", "--porcelain"], { cwd: this.cwd , env: gitEnv});
     return stdout === "";
   }
 
   public async commitAndPush() {
-    await execa("git", ["add", "-A", "."], { cwd: this.cwd, stdio: "inherit" });
-    await execa("git", ["commit", "-m", this.commitMessage], { cwd: this.cwd, stdio: "inherit" });
-    await execa("git", ["push", "origin", "master"], { cwd: this.cwd, stdio: "inherit" });
+    await execa("git", ["add", "-A", "."], { cwd: this.cwd, stdio: "inherit", env: gitEnv });
+    await execa("git", ["commit", "-m", this.commitMessage], { cwd: this.cwd, stdio: "inherit", env: gitEnv });
+    await execa("git", ["push", "origin", "master"], { cwd: this.cwd, stdio: "inherit", env: gitEnv });
   }
 }
