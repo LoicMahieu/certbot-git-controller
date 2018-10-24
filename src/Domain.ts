@@ -34,7 +34,7 @@ class Domain {
       this.failCount = 0;
     } catch (err) {
       this.failCount++;
-      logger.error(`Error during request certificates for domain ${this.name}`, err);
+      logger.error(err);
     }
   }
 
